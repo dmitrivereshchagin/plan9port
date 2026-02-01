@@ -402,6 +402,7 @@
 00B9  s1          ¹	superscript digit one
 00B2  s2          ²	superscript digit two
 00B3  s3          ³	superscript digit three
+20BD  r$          ₽	ruble sign
 2074  s4          ⁴	superscript digit four
 2075  s5          ⁵	superscript digit five
 2076  s6          ⁶	superscript digit six
@@ -584,4 +585,5 @@
 F015  ZA          	raw alt (plan 9 specific)
 F016  ZS          	raw shift (plan 9 specific)
 F017  ZC          	raw ctl (plan 9 specific)
+F800  go          	gopher
 1F602 :,          😂 face with tears of joy
