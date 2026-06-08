@@ -67,6 +67,16 @@ fortune fortune.1
 freq freq.1
 fsize fsize.1
 mtime fsize.1
+4s games.1
+5s games.1
+festoon games.1
+games games.1
+juggle games.1
+life games.1
+mahjongg games.1
+memo games.1
+sokoban games.1
+sudoku games.1
 codereview git.1
 cvs git.1
 git git.1
