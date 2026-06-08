@@ -59,11 +59,10 @@
 .B games/sudoku
 .SH DESCRIPTION
 There are a few games in
-.BR /bin/games :
-.TF mahjongg
+.BR \*9/bin/games :
 .PD
 .TP
-.BR 4s , " 5s"
+.BR 4s , " 5s (not ported)"
 Try to fill complete rows using 4-square or 5-square tiles.
 Move tiles left or right by moving the mouse.
 Rotate tiles with buttons 1 and 3.
@@ -96,7 +95,7 @@ and
 .LR control-D
 quit.
 .TP
-.B festoon
+.B festoon (not ported)
 Generate an official-looking but utterly nonsensical bureaucratic report as
 .L "pic | eqn | tbl | troff -mm"
 input.
@@ -107,7 +106,7 @@ and
 .B -t
 add gibberish diagrams, equations and tables.
 .TP
-.B juggle
+.B juggle (not ported)
 Display the juggling
 .I pattern
 using the optional initial
@@ -123,14 +122,14 @@ or YWUSQOMKIGECA
 (see
 .BR http://seehuhn.de/jong/theory.html ).
 .TP
-.B life
+.B life (not ported)
 Play the game of Life, given an initial position.
 There is a library of interesting initial positions;
 the library is consulted if
 .I startfile
 cannot be found.
 .TP
-.B mahjongg
+.B mahjongg (not ported)
 Remove all tiles
 from the board. Click on tiles with the same face that
 are not blocked by others. A blocked tile is one that is partially or
@@ -167,7 +166,7 @@ undo the last move,
 .LR C
 tries to solve the level.
 .TP
-.B memo
+.B memo (not ported)
 Remove all tiles from the board.
 At first, pictures of various Bell Labs employees, Lucent Technologies' logo, and Glenda will appear.
 Memorize the sequence, then click to hide them and begin.
@@ -180,7 +179,7 @@ option sets the game to hard mode.
 Once the game has been completed, a message pops up with how long it took to win.
 Use the button 3 menu to choose a mode, or click to play again.
 .TP
-.B sokoban
+.B sokoban (not ported)
 Guide Glenda through a room full of walls, pebbles and holes to put
 the pebbles in.  Your goal is to arrange all pebbles into holes by
 pushing them around, but you can only push a pebble if there is no
@@ -209,7 +208,7 @@ Otherwise, if possible, Glenda will walk to the destination without pushing the 
 .I Sokoban
 accepts a level file as its argument.
 .TP
-.B sudoku
+.B sudoku (not ported)
 .I Sudoku
 is a puzzle game from Japan.  The goal of the game is to
 fill the numbers 1 to 9 in all squares of the 9x9 board following a
@@ -264,41 +263,40 @@ quit the game
 Button 2 presents a list of
 .I sudoku
 boards of varying degrees of difficulty from
-.BR /sys/games/lib/sudoku/boards .
+.BR \*9/games/lib/sudoku/boards .
 .IP
 Pressing the
 .B Q
 key quits
 .IR sudoku .
 .SH FILES
-.TF /sys/games/lib/mahjongg/*
 .TP
-.B /sys/games/lib/[45]scores
+.B \*9/games/lib/[45]scores
 score files of
 .I 4s
 and
 .I 5s
 .TP
-.B /sys/games/lib/life/*
+.B \*9/games/lib/life/*
 interesting starting positions
 .TP
-.B /sys/games/lib/mahjongg/*
+.B \*9/games/lib/mahjongg/*
 image sprites, levels and backgrounds used by
 .I mahjongg
 .TP
-.B /lib/face/*
+.B \*9/lib/face/*
 tiles for
 .I memo
 .TP
-.B /sys/games/lib/sokoban/*
+.B \*9/games/lib/sokoban/*
 image sprites and levels used by
 .I sokoban
 .TP
-.B /sys/games/lib/sudoku/*
+.B \*9/games/lib/sudoku/*
 images and boards used by
 .I sudoku
 .SH SOURCE
-.B /sys/src/games
+.B \*9/src/games
 .SH BUGS
 In
 .I 4s
