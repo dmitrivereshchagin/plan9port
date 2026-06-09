@@ -4,6 +4,7 @@ BIN=$PLAN9/bin/games
 TARG=\
 	4s\
 	5s\
+	festoon\
 
 <$PLAN9/src/mkmany
 
