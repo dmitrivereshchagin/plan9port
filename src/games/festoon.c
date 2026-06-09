@@ -59,7 +59,7 @@ X conjadv(void);
 X lconjadv(void);
 X conjsub(void);
 X lconjsub(void);
-X conj(void);
+X _conj(void);
 X nomz(void);
 X equation();
 X turgid(E);
@@ -785,6 +785,7 @@ root(void) {
 	return CHOOSE(root);
 }
 
+int
 prob(f)
 	double          f;
 {
@@ -1236,7 +1237,7 @@ lconjsub(void) {
 static char    *conjlist[] = {"and", "but", "yet", "and", "and"};
 
 X 
-conj(void) {
+_conj(void) {
 	X               v = getxx();
 	v->type = "-conj";
 	v->list.s[0] = CHOOSE(conjlist);
@@ -1313,7 +1314,7 @@ turgid(env)
 	} else if (prob(2 * T)) {
 		v->list.x[i++] = turgid(env);
 		v->list.x[i++] = comma(env);
-		v->list.x[i++] = conj();
+		v->list.x[i++] = _conj();
 		v->list.x[i++] = sent(env);
 	} else if (prob(1.5 * T)) {
 		v->list.x[i++] = lconjsub();
@@ -1334,7 +1335,7 @@ turgid(env)
 		if (eqn && prob(.5)) {
 			v->list.x[i++] = equation();
 			v->list.x[i++] = comma(env);
-			v->list.x[i++] = conj();
+			v->list.x[i++] = _conj();
 		}
 		v->list.x[i++] = sent(env);
 	} else

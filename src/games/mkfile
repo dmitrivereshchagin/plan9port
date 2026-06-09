@@ -1,0 +1,7 @@
+<$PLAN9/src/mkhdr
+BIN=$PLAN9/bin/games
+
+TARG=\
+	festoon\
+
+<$PLAN9/src/mkmany
