@@ -1,6 +1,8 @@
 #include <u.h>
 #include <libc.h>
 
+#define conj _conj
+
 #define R rand()&32767
 #define T 0.125
 #define CHOOSE(x) (x[(R)%(sizeof x / sizeof x[0])])
@@ -785,6 +787,7 @@ root(void) {
 	return CHOOSE(root);
 }
 
+int
 prob(f)
 	double          f;
 {
