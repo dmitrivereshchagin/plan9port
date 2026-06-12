@@ -5,6 +5,7 @@ TARG=\
 	4s\
 	5s\
 	festoon\
+	juggle\
 
 <$PLAN9/src/mkmany
 

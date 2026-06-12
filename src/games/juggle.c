@@ -118,9 +118,9 @@ diskinit(void)
 }
 
 void
-usage(char *name)
+usage(void)
 {
-	fprint(2, "usage: %s [start] pattern\n", name);
+	fprint(2, "usage: %s [-W winsize] [start] pattern\n", argv0);
 	exits("usage");
 }
 
@@ -141,22 +141,21 @@ main(int argc, char *argv[]){
 
 	ARGBEGIN{
 	default:
-		usage(argv0);
+		usage();
 	case 'd':
-		s = ARGF();
-		if(s == nil)
-			usage(argv0);
+		s = EARGF(usage());
 		delay = strtol(argv[0], &s, 0);
 		if(delay < 0 || s == argv[0] || *s != '\0')
-			usage(argv0);
+			usage();
 		break;
 	case 'h':
-		s = ARGF();
-		if(s == nil)
-			usage(argv0);
+		s = EARGF(usage());
 		nhand = strtol(argv[0], &s, 0);
 		if(nhand <= 0 || s == argv[0] || *s != '\0')
-			usage(argv0);
+			usage();
+		break;
+	case 'W':
+		winsize = EARGF(usage());
 		break;
 	}ARGEND
 	
@@ -170,7 +169,7 @@ main(int argc, char *argv[]){
 			pattern=argv[1]; 
 			break;
 	default: 
-			usage(argv0);
+			usage();
 	}
 	sum=0;
 	maxhgt=0;
