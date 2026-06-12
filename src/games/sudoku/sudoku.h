@@ -21,9 +21,9 @@ typedef struct Cell {
 	int locked;
 } Cell;
 
-Cell	brd[Psize];
-Cell	obrd[Psize];
-int		board[Psize];
+extern Cell	brd[Psize];
+extern Cell	obrd[Psize];
+extern int	board[Psize];
 
 /* game.c */
 int getrow(int cell);

@@ -7,8 +7,12 @@
 
 #include "sudoku.h"
 
-char *imgdir = "/sys/games/lib/sudoku/images";
-char *lvldir = "/sys/games/lib/sudoku/boards";	/* level library dir */
+Cell	brd[Psize];
+Cell	obrd[Psize];
+int	board[Psize];
+
+char *imgdir = "#9/games/lib/sudoku/images";
+char *lvldir = "#9/games/lib/sudoku/boards";	/* level library dir */
 
 int selected;	/* which digit do we have selected? */
 
@@ -300,7 +304,11 @@ main(int argc, char *argv[])
 	Point p;
 	int last1 = 0;	/* was the button clicked last time? */
 
-	USED(argc, argv);
+	USED(argc);
+	USED(argv);
+
+	imgdir = unsharp(imgdir);
+	lvldir = unsharp(lvldir);
 
 	if(initdraw(nil, nil, "sudoku") < 0)
 		sysfatal("initdraw failed: %r");
