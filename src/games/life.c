@@ -9,6 +9,9 @@
 #include <draw.h>
 #include <event.h>
 
+#define j0 _j0
+#define j1 _j1
+
 enum {
 	NLIFE	= 256,		/* life array size */
 	PX	= 4,		/* cell spacing */
@@ -81,8 +84,6 @@ setrules(char *r)
 static void
 g9err(Display *, char *err)
 {
-	static int entered = 0;
-
 	fprint(2, "%s: %s (%r)\n", argv0, err);
 	exits(err);
 }
@@ -135,7 +136,7 @@ main(int argc, char *argv[])
 	if (argc != 1)
 		usage();
 
-	initdraw(g9err, 0, argv0);
+	initdraw(g9err, 0, "life");
 	einit(Emouse|Ekeyboard);	/* implies rawon() */
 
 	cen = divpt(subpt(addpt(screen->r.min, screen->r.max),
@@ -179,7 +180,7 @@ interest(int rc[NLIFE], int i)
  * Generate returns 0 if there was no change from the last generation,
  * and 1 if there were changes.
  */
-#define	neighbour(di, dj, op) lp[(di)*NLIFE+(dj)] op= 2
+#define	neighbour(di, dj, op) lp[(di)*NLIFE+(dj)] op ## = 2
 #define	neighbours(op)\
 	neighbour(-1, -1, op);\
 	neighbour(-1,  0, op);\
@@ -212,7 +213,7 @@ generate(void)
 	for (i = 1; i != NLIFE - 1; i++)
 		if (interest(row, i)) {
 			for (j = j0, lp = &life[i][j0]; j <= j1; j++, lp++)
-				switch (action[*lp]) {
+				switch (action[(int)*lp]) {
 				case 'b':
 					++*lp;
 					++drow[i];
@@ -298,7 +299,8 @@ readlife(char *filename)
 	Biobuf *bp;
 
 	if ((bp = Bopen(filename, OREAD)) == nil) {
-		snprint(name, sizeof name, "/sys/games/lib/life/%s", filename);
+		snprint(name, sizeof name,
+			"%s/games/lib/life/%s", get9root(), filename);
 		if ((bp = Bopen(name, OREAD)) == nil)
 			sysfatal("can't read %s: %r", name);
 	}
