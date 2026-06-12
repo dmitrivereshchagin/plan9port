@@ -385,7 +385,7 @@ suspend(int s)
 }
 
 void
-pause(int t)
+_pause(int t)
 {
 	int s;
 	Alt alts[NALT+1];
@@ -458,7 +458,7 @@ horiz(void)
 		flushimage(display, 1);
 	}
 	for(i=0; i<3; i++){
-		pause(250);
+		_pause(250);
 		if(newscreen){
 			drawboard();
 			break;
@@ -544,7 +544,7 @@ drop(int f)
 		return 1;
 	horiz();
 	setpiece(0);
-	pause(1500);
+	_pause(1500);
 	choosepiece();
 	lastmx = warp(mouse.xy, lastmx);
 	return 0;
@@ -815,7 +815,7 @@ void
 usage(void)
 {
 	fprint(2, "usage: %s\n", argv0);
-	exits("usage");
+	threadexitsall("usage");
 }
 
 void
@@ -845,7 +845,7 @@ threadmain(int argc, char *argv[])
 		sysfatal("[45]s: keyboard init failed: %r");
 	starttime = time(0);
 	srand(starttime);
-	snprint(buf, sizeof(buf), "/sys/games/lib/%dscores", N);
+	snprint(buf, sizeof(buf), unsharp("#9/games/lib/%dscores"), N);
 	scores = open(buf, OWRITE);
 	if(scores < 0)
 		sysfatal("can't open %s: %r", buf);
@@ -887,5 +887,4 @@ threadmain(int argc, char *argv[])
 			points, getuser(), starttime, endtime-starttime);
 	}
 	threadexitsall(nil);
-	exits(0);
 }

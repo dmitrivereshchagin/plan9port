@@ -2,8 +2,19 @@
 BIN=$PLAN9/bin/games
 
 TARG=\
+	4s\
+	5s\
 	festoon\
 	juggle\
 	life\
 
 <$PLAN9/src/mkmany
+
+4s.$O 5s.$O xs.$O:	xs.h
+$O.4s $O.5s:	xs.$O
+
+4s.install:V:	$PLAN9/games/lib/4scores
+5s.install:V:	$PLAN9/games/lib/5scores
+
+$PLAN9/games/lib/[45]scores:R:
+	$INSTALL -m 0666 /dev/null $target
