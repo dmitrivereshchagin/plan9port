@@ -23,5 +23,6 @@ $PLAN9/games/lib/[45]scores:R:
 DIRS=\
 	mahjongg\
 	sokoban\
+	sudoku\
 
 <$PLAN9/src/mkdirs
