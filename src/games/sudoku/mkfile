@@ -1,5 +1,5 @@
-</$objtype/mkfile
-BIN=/$objtype/bin/games
+<$PLAN9/src/mkhdr
+BIN=$PLAN9/bin/games
 
 TARG=sudoku
 OFILES=\
@@ -9,10 +9,4 @@ OFILES=\
 
 HFILES=sudoku.h\
 
-UPDATE=\
-	mkfile\
-	$HFILES\
-	${OFILES:%.$O=%.c}\
-	`{ls /sys/games/lib/sudoku/*}
-
-</sys/src/cmd/mkone
+<$PLAN9/src/mkone
