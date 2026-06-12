@@ -1,5 +1,7 @@
 #include "xs.h"
 
+#define pause _pause
+
 /*
  * engine for 4s, 5s, etc
  */
@@ -554,7 +556,7 @@ int
 play(void)
 {
 	int i;
-	Mouse om;
+	Mouse om = mouse;
 	int s;
 	Rune r;
 	Alt alts[NALT+1];
@@ -815,7 +817,7 @@ void
 usage(void)
 {
 	fprint(2, "usage: %s\n", argv0);
-	exits("usage");
+	threadexitsall("usage");
 }
 
 void
@@ -845,8 +847,8 @@ threadmain(int argc, char *argv[])
 		sysfatal("[45]s: keyboard init failed: %r");
 	starttime = time(0);
 	srand(starttime);
-	snprint(buf, sizeof(buf), "/sys/games/lib/%dscores", N);
-	scores = open(buf, OWRITE);
+	snprint(buf, sizeof(buf), "%s/games/lib/%dscores", get9root(), N);
+	scores = open(buf, OWRITE|OAPPEND);
 	if(scores < 0)
 		sysfatal("can't open %s: %r", buf);
 	tb = 0;
@@ -887,5 +889,4 @@ threadmain(int argc, char *argv[])
 			points, getuser(), starttime, endtime-starttime);
 	}
 	threadexitsall(nil);
-	exits(0);
 }
