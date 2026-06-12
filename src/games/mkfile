@@ -4,5 +4,6 @@ BIN=$PLAN9/bin/games
 TARG=\
 	festoon\
 	juggle\
+	life\
 
 <$PLAN9/src/mkmany

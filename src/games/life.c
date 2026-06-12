@@ -34,7 +34,7 @@ int		delay;
 
 Point	cen;
 Image	*box;
-int	i0, i1, j0, j1;
+int	i0, i1, _j0, _j2;
 int	needresize;
 
 void	birth(int, int);
@@ -81,7 +81,7 @@ setrules(char *r)
 static void
 g9err(Display *, char *err)
 {
-	static int entered = 0;
+//	static int entered = 0;
 
 	fprint(2, "%s: %s (%r)\n", argv0, err);
 	exits(err);
@@ -179,7 +179,7 @@ interest(int rc[NLIFE], int i)
  * Generate returns 0 if there was no change from the last generation,
  * and 1 if there were changes.
  */
-#define	neighbour(di, dj, op) lp[(di)*NLIFE+(dj)] op= 2
+#define	neighbour(di, dj, op) lp[(di)*NLIFE+(dj)] op 2
 #define	neighbours(op)\
 	neighbour(-1, -1, op);\
 	neighbour(-1,  0, op);\
@@ -195,24 +195,24 @@ generate(void)
 {
 	char *lp;
 	char **p, **addp, **delp;
-	int i, j, j0 = NLIFE, j1 = -1;
+	int i, j, _j0 = NLIFE, _j2 = -1;
 	int drow[NLIFE], dcol[NLIFE];
 
 	for (j = 1; j != NLIFE - 1; j++) {
 		drow[j] = dcol[j] = 0;
 		if (interest(col, j)) {
-			if (j < j0)
-				j0 = j;
-			if (j1 < j)
-				j1 = j;
+			if (j < _j0)
+				_j0 = j;
+			if (_j2 < j)
+				_j2 = j;
 		}
 	}
 	addp = adjust;
 	delp = &adjust[NADJUST];
 	for (i = 1; i != NLIFE - 1; i++)
 		if (interest(row, i)) {
-			for (j = j0, lp = &life[i][j0]; j <= j1; j++, lp++)
-				switch (action[*lp]) {
+			for (j = _j0, lp = &life[i][_j0]; j <= _j2; j++, lp++)
+				switch (action[(int)*lp]) {
 				case 'b':
 					++*lp;
 					++drow[i];
@@ -236,12 +236,12 @@ generate(void)
 	p = adjust;
 	while (p != addp) {
 		lp = *p++;
-		neighbours(+);
+		neighbours(+=);
 	}
 	p = delp;
 	while (p != &adjust[NADJUST]) {
 		lp = *p++;
-		neighbours(-);
+		neighbours(-=);
 	}
 	for (i = 1; i != NLIFE - 1; i++) {
 		row[i] += drow[i];
@@ -267,7 +267,7 @@ birth(int i, int j)
 	++*lp;
 	++row[i];
 	++col[j];
-	neighbours(+);
+	neighbours(+=);
 	setbox(i, j);
 }
 
@@ -286,7 +286,7 @@ death(int i, int j)
 	--*lp;
 	--row[i];
 	--col[j];
-	neighbours(-);
+	neighbours(-=);
 	clrbox(i, j);
 }
 
@@ -344,11 +344,11 @@ centerlife(void)
 		di = 1 - i0;
 	else if (i1 + di >= NLIFE - 1)
 		di = NLIFE - 2 - i1;
-	dj = NLIFE / 2 - (j0 + j1) / 2;
-	if (j0 + dj < 1)
-		dj = 1 - j0;
-	else if (j1 + dj >= NLIFE - 1)
-		dj = NLIFE - 2 - j1;
+	dj = NLIFE / 2 - (_j0 + _j2) / 2;
+	if (_j0 + dj < 1)
+		dj = 1 - _j0;
+	else if (_j2 + dj >= NLIFE - 1)
+		dj = NLIFE - 2 - _j2;
 	if (di != 0 || dj != 0) {
 		if (di > 0) {
 			iinc = -1;
@@ -359,13 +359,13 @@ centerlife(void)
 			iinc = 1;
 		if (dj > 0) {
 			jinc = -1;
-			t = j0;
-			j0 = j1;
-			j1 = t;
+			t = _j0;
+			_j0 = _j2;
+			_j2 = t;
 		} else
 			jinc = 1;
 		for (i = i0; i * iinc <= i1 * iinc; i += iinc)
-			for (j = j0; j * jinc <= j1 * jinc; j += jinc)
+			for (j = _j0; j * jinc <= _j2 * jinc; j += jinc)
 				if (life[i][j] & 1) {
 					birth(i + di, j + dj);
 					death(i, j);
@@ -381,7 +381,7 @@ redraw(void)
 	window();
 	draw(screen, screen->r, display->white, nil, ZP);
 	for (i = i0; i <= i1; i++)
-		for (j = j0; j <= j1; j++)
+		for (j = _j0; j <= _j2; j++)
 			if (life[i][j] & 1)
 				setbox(i, j);
 }
@@ -393,9 +393,9 @@ window(void)
 		;
 	for (i1 = NLIFE - 2; i1 != i0 && row[i1] == 0; --i1)
 		;
-	for (j0 = 1; j0 != NLIFE - 2 && col[j0] == 0; j0++)
+	for (_j0 = 1; _j0 != NLIFE - 2 && col[_j0] == 0; _j0++)
 		;
-	for (j1 = NLIFE - 2; j1 != j0 && col[j1] == 0; --j1)
+	for (_j2 = NLIFE - 2; _j2 != _j0 && col[_j2] == 0; --_j2)
 		;
 }
 
