@@ -6,6 +6,7 @@ LIBDIRS=`ls -ld lib* | sed -n 's/^d.* //p' |$egrep -v "^lib($BUGGERED)$"`
 DIRS=\
 	$LIBDIRS\
 	cmd\
+	games\
 
 <mkdirs
 

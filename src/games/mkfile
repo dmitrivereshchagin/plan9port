@@ -1,0 +1,10 @@
+<$PLAN9/src/mkhdr
+BIN=$PLAN9/bin/games
+
+TARG=\
+
+<$PLAN9/src/mkmany
+
+DIRS=\
+
+<$PLAN9/src/mkdirs
