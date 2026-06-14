@@ -83,8 +83,8 @@ main(int argc, char *argv[])
 	memoinit();
 	einit(Emouse);
 
-    Start:
 	afaces();
+    Start:
 	winflag=0;
 	prev=level+1;
 	score=attempt=0;
@@ -102,9 +102,9 @@ main(int argc, char *argv[])
 		}
 	}
 	eresized(0);
-	for(;;m=emouse())
-		if(m.buttons)
-			break;
+	do
+		m = emouse();
+	while(!m.buttons);
 
 	for(i=0;i!=level;i++)
 		block[i].flag = Ehide;
@@ -194,9 +194,9 @@ eresized(int new)
 	}
 
 	sq = sqrt(level);
-	p = Pt(Dx(screen->r)+8, Dy(screen->r)+8);
-	if(!new || !eqpt(p, Pt(Facesize*sq+sq*4+17, Facesize*sq+sq*4+17)))
-		resize(Facesize*sq+sq*4+17);
+	p = Pt(Dx(screen->r), Dy(screen->r));
+	if(!new || !eqpt(p, Pt(Facesize*sq+sq*4+10, Facesize*sq+sq*4+10)))
+		resize(Facesize*sq+sq*4+10);
 
 	allocblocks();
 	draw(screen, screen->r, back, nil, ZP);
@@ -243,49 +243,47 @@ redraw(void)
 
 char *facepaths[] = {
 	/* logos */
-	"/lib/face/48x48x4/g/glenda.1",
-	"/lib/face/48x48x2/p/pjw+9ball.2",
+	"#9/lib/face/48x48x4/g/glenda.1",
+	"#9/lib/face/48x48x2/p/pjw+9ball.2",
 
 	/* /sys/doc/9.ms authors */
-	"/lib/face/48x48x2/k/ken.1",
-	"/lib/face/48x48x4/b/bobf.1",
-	"/lib/face/48x48x4/p/philw.1",
-	"/lib/face/48x48x4/p/presotto.1",
-	"/lib/face/48x48x4/r/rob.1",
-	"/lib/face/48x48x4/s/sean.1",
+	"#9/lib/face/48x48x2/k/ken.1",
+	"#9/lib/face/48x48x4/b/bobf.1",
+	"#9/lib/face/48x48x4/p/philw.1",
+	"#9/lib/face/48x48x4/p/presotto.1",
+	"#9/lib/face/48x48x4/r/rob.1",
+	"#9/lib/face/48x48x4/s/sean.1",
 
 	/* additional authors and luminaries for harder levels */
-	"/lib/face/48x48x4/b/bwk.1",
-	"/lib/face/48x48x4/c/cyoung.1",
-	"/lib/face/48x48x4/d/dmr.1",
-	"/lib/face/48x48x4/d/doug.1",
-	"/lib/face/48x48x4/h/howard.1",
-	"/lib/face/48x48x4/j/jmk.1",
-	"/lib/face/48x48x4/s/sape.1",
-	"/lib/face/48x48x4/s/seanq.1",
-	"/lib/face/48x48x4/t/td.1",
-	"/lib/face/48x48x8/l/lucent.1",
+	"#9/lib/face/48x48x4/b/bwk.1",
+	"#9/lib/face/48x48x4/c/cyoung.1",
+	"#9/lib/face/48x48x4/d/dmr.1",
+	"#9/lib/face/48x48x4/d/doug.1",
+	"#9/lib/face/48x48x4/h/howard.1",
+	"#9/lib/face/48x48x4/j/jmk.1",
+	"#9/lib/face/48x48x4/s/sape.1",
+	"#9/lib/face/48x48x4/s/seanq.1",
+	"#9/lib/face/48x48x4/t/td.1",
+	"#9/lib/face/48x48x8/l/lucent.1",
 };
 
 void
 afaces(void)
 {
+	char *p;
 	int i;
 
-	for(i=0; i<18; i++)
-		face[i] = openface(facepaths[i]);
+	for(i=0; i<18; i++){
+		p = unsharp(facepaths[i]);
+		face[i] = openface(p);
+		if(p != facepaths[i]) free(p);
+	}
 }
 
 void
 resize(int i)
 {
-	int fd;
-
-	fd = open("/dev/wctl", OWRITE);
-	if(fd >= 0){
-		fprint(fd, "resize -dx %d -dy %d", i, i);
-		close(fd);
-	}
+	drawresizewindow(Rect(0, 0, i, i));
 }
 
 Image *
@@ -312,8 +310,8 @@ allocblocks(void)
 
 	sq = sqrt(level);
 	r = insetrect(screen->r, 5);
-	r.max.x = r.min.x+Facesize*sq+sq*4-1;
-	r.max.y = r.min.y+Facesize*sq+sq*4-1;
+	r.max.x = r.min.x+Facesize*sq+sq*4;
+	r.max.y = r.min.y+Facesize*sq+sq*4;
 	b.max.y = r.min.y;
 	for(i=level-1, y=0; y!=sq; y++){
 		b.min.y = b.max.y;
@@ -322,7 +320,7 @@ allocblocks(void)
 		for(x=0; x!=sq; x++, i--){
 			b.min.x = b.max.x;
 			b.max.x = r.min.x+Dx(r)*(x+1)/sq;
-			block[i].r = insetrect(b, 2 );
+			block[i].r = insetrect(b, 2);
 		}
 	}
 }
@@ -376,6 +374,7 @@ readbit(int fd, ulong chan, char *path)
 Image*
 openface(char *path)
 {
+	Image *i;
 	char *p;
 	int fd, n;
 
@@ -384,9 +383,12 @@ openface(char *path)
 		return openimage(path);
 	n = atoi(p+6);
 	if(n < 4){
-		if((fd = open(path, OREAD)) < 0)
+		fd = open(path, OREAD);
+		if(fd < 0)
 			sysfatal("open %s: %r", path);
-		return readbit(fd, n==1 ? GREY1 : GREY2, path);
+		i = readbit(fd, n==1 ? GREY1 : GREY2, path);
+		close(fd);
+		return i;
 	}
 	return openimage(path);
 }
