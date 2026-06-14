@@ -4,7 +4,21 @@
 #include <event.h>
 #include "mahjongg.h"
 
-#define MJDIR "/sys/games/lib/mahjongg/"
+Level level;
+Level orig;
+
+Image *img;
+
+Image *background;
+Image *brdr;
+Image *gameover;
+Image *litbrdr;
+Image *mask;
+Image *selected;
+Image *textcol;
+Image *tileset;
+
+#define MJDIR "#9/games/lib/mahjongg/"
 
 char *Border	= MJDIR "images/border.bit";
 char *Mask	= MJDIR "images/mask.bit";
@@ -104,6 +118,14 @@ main(int argc, char **argv)
 	Mouse m;
 	Event e;
 	Point origin = Pt(Bord, Bord);
+
+	Border = unsharp(Border);
+	Mask = unsharp(Mask);
+	Gameover = unsharp(Gameover);
+
+	deftileset = unsharp(deftileset);
+	defbackgr = unsharp(defbackgr);
+	deflayout = unsharp(deflayout);
 
 	ARGBEGIN{
 	case 'b':

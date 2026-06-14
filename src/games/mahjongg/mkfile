@@ -1,5 +1,5 @@
-</$objtype/mkfile
-BIN=/$objtype/bin/games
+<$PLAN9/src/mkhdr
+BIN=$PLAN9/bin/games
 
 TARG=mahjongg
 OFILES=\
@@ -11,10 +11,4 @@ OFILES=\
 
 HFILES=mahjongg.h\
 
-UPDATE=\
-	mkfile\
-	$HFILES\
-	${OFILES:%.$O=%.c}\
-	`{ls /sys/games/lib/mahjongg/*}
-
-</sys/src/cmd/mkone
+<$PLAN9/src/mkone

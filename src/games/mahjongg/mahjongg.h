@@ -71,23 +71,23 @@ typedef struct {
 	int 	remaining;
 } Level;
 
-Level level;			/* the level played */
-Level orig;			/* same, sans modifications */
+extern Level level;			/* the level played */
+extern Level orig;			/* same, sans modifications */
 
-Image *img;			/* buffer */
+extern Image *img;			/* buffer */
 
-Image *background;
-Image *brdr;
-Image *gameover;
-Image *litbrdr;
-Image *mask;
-Image *selected;
-Image *textcol;
-Image *tileset;
+extern Image *background;
+extern Image *brdr;
+extern Image *gameover;
+extern Image *litbrdr;
+extern Image *mask;
+extern Image *selected;
+extern Image *textcol;
+extern Image *tileset;
 
 /* logic.c */
 Click	Cl(int d, int x, int y);
-Click	NC;
+extern Click	NC;
 Brick	*bmatch(Click c);
 int	canmove(void);
 Click	cmatch(Click c, int dtop);
