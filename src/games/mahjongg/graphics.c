@@ -122,13 +122,7 @@ drawlevel(void)
 void
 resize(Point p)
 {
-	int fd;
-
-	fd = open("/dev/wctl", OWRITE);
-	if(fd >= 0){
-		fprint(fd, "resize -dx %d -dy %d", p.x, p.y);
-		close(fd);
-	}
+	drawresizewindow(Rect(0, 0, p.x, p.y));
 }
 
 void

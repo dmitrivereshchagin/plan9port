@@ -20,5 +20,6 @@ $PLAN9/games/lib/[45]scores:R:
 	$INSTALL -m 0666 /dev/null $target
 
 DIRS=\
+	mahjongg\
 
 <$PLAN9/src/mkdirs
