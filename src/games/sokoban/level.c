@@ -5,6 +5,10 @@
 
 #include "sokoban.h"
 
+Level level;
+Level levels[Maxlevels];
+int numlevels;
+
 void
 consumeline(Biobuf *b)
 {
