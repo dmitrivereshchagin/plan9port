@@ -1,5 +1,5 @@
-</$objtype/mkfile
-BIN=/$objtype/bin/games
+<$PLAN9/src/mkhdr
+BIN=$PLAN9/bin/games
 
 TARG=sokoban
 OFILES=\
@@ -12,10 +12,4 @@ OFILES=\
 
 HFILES=sokoban.h\
 
-UPDATE=\
-	mkfile\
-	$HFILES\
-	${OFILES:%.$O=%.c}\
-	`{ls /sys/games/lib/sokoban/*}
-
-</sys/src/cmd/mkone
+<$PLAN9/src/mkone

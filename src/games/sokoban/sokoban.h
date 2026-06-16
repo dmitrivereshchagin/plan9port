@@ -67,23 +67,23 @@ typedef struct {
 	uint 	board[MazeX][MazeY];
 } Level;
 
-Level level;		/* the current level */
-Level levels[Maxlevels];	/* all levels from this file */
-int numlevels;		/* how many levels do we have */
+extern Level level;		/* the current level */
+extern Level levels[Maxlevels];	/* all levels from this file */
+extern int numlevels;		/* how many levels do we have */
 
-Image *img;		/* buffer */
-Image *text;		/* for text messages */
-Image *win;
+extern Image *img;		/* buffer */
+extern Image *text;		/* for text messages */
+extern Image *win;
 
-Image *goal;
-Image *cargo;
-Image *goalcargo;
-Image *wall;
-Image *empty;
-Image *gleft;
-Image *gright;
-Image *glenda;
-Image *bg;
+extern Image *goal;
+extern Image *cargo;
+extern Image *goalcargo;
+extern Image *wall;
+extern Image *empty;
+extern Image *gleft;
+extern Image *gright;
+extern Image *glenda;
+extern Image *bg;
 
 /* graphics.c */
 void drawscreen(void);

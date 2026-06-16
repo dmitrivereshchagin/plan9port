@@ -2,10 +2,25 @@
 #include <libc.h>
 #include <draw.h>
 #include <event.h>
+#include <keyboard.h>
 
 #include "sokoban.h"
 
-#define SOKOTREE "/sys/games/lib/sokoban/"
+Image *img;
+Image *text;
+Image *win;
+
+Image *goal;
+Image *cargo;
+Image *goalcargo;
+Image *wall;
+Image *empty;
+Image *gleft;
+Image *gright;
+Image *glenda;
+Image *bg;
+
+#define SOKOTREE "#9/games/lib/sokoban/"
 
 char *LEasy = SOKOTREE "levels/easy.slc";
 char *LHard = SOKOTREE "levels/hard.slc";
@@ -39,10 +54,7 @@ Menu menu =
 	buttons,
 };
 
-Menu lmenu =
-{
-	levelnames,
-};
+Menu lmenu;
 
 void
 buildmenu(void)
@@ -119,16 +131,16 @@ key2move(int key)
 	int k = 0;
 
 	switch(key) {
-	case 61454:
+	case Kup:
 		k = Up;
 		break;
-	case 63488:
+	case Kdown:
 		k = Down;
 		break;
-	case 61457:
+	case Kleft:
 		k = Left;
 		break;
-	case 61458:
+	case Kright:
 		k = Right;
 		break;
 	}
@@ -222,6 +234,16 @@ main(int argc, char **argv)
 	Animation a;
 	int animate;
 
+	LEasy = unsharp(LEasy);
+	LHard = unsharp(LHard);
+	GRImage = unsharp(GRImage);
+	GLImage = unsharp(GLImage);
+	WallImage = unsharp(WallImage);
+	EmptyImage = unsharp(EmptyImage);
+	CargoImage = unsharp(CargoImage);
+	GoalCargoImage = unsharp(GoalCargoImage);
+	GoalImage = unsharp(GoalImage);
+	WinImage = unsharp(WinImage);
 
 	if(argc == 2) 
 		levelfile = argv[1];
@@ -340,16 +362,16 @@ main(int argc, char **argv)
 				drawlevel();
 				drawscreen();
 				break;
-			case 61454:
-			case 63488:
-			case 61457:
-			case 61458:
+			case Kup:
+			case Kdown:
+			case Kleft:
+			case Kright:
 			case ' ':
 				move(key2move(ev.kbdc));
 				drawscreen();
 				break;
 			default:
-				// fprint(2, "key: %d]\n", e.kbdc);
+				// fprint(2, "key: %d\n", ev.kbdc);
 				break;
 			}
 			break;

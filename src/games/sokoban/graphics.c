@@ -84,15 +84,7 @@ void
 resize(Point p)
 {
 	/* resize to the size of the current level */
-
-	int fd;
-
-	fd = open("/dev/wctl", OWRITE);
-	if(fd >= 0){
-		fprint(fd, "resize -dx %d -dy %d", p.x*BoardX+10, p.y*BoardY+10);
-		close(fd);
-	}
-
+	drawresizewindow(Rect(0, 0, p.x*BoardX, p.y*BoardY));
 }
 
 Point
