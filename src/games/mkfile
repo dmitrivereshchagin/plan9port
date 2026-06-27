@@ -4,6 +4,7 @@ BIN=$PLAN9/bin/games
 TARG=\
 	4s\
 	5s\
+	catclock\
 	festoon\
 	juggle\
 	life\
@@ -19,6 +20,8 @@ $O.4s $O.5s:	xs.$O
 
 $PLAN9/games/lib/[45]scores:R:
 	$INSTALL -m 0666 /dev/null $target
+
+catclock.$O:	catback.p eyes.p
 
 DIRS=\
 	mahjongg\
