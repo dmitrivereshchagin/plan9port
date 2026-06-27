@@ -73,10 +73,6 @@ eloadimage(Image *i, Rectangle r, uchar *d, int nd)
 	}
 }
 
-int round(double x){
-	return x>=0.?x+.5:x-.5;
-}
-
 void
 redraw(Image *screen)
 {
@@ -95,15 +91,31 @@ eresized(int new)
 	redraw(screen);
 }
 
+void
+usage(void)
+{
+	fprint(2, "usage: %s [-c] [-W winsize]\n", argv0);
+	exits("usage");
+}
+
 void main(int argc, char *argv[]){
 	int i;
 	ARGBEGIN{
-	case 'c': crosseyed++; break;
+	case 'c':
+		crosseyed++;
+		break;
+	case 'W':
+		winsize = EARGF(usage());
+		break;
 	default:
-		fprint(2, "Usage: %s [-c]\n", argv0);
-		exits("usage");
+		usage();
 	}ARGEND
-	initdraw(0, 0, "cat clock");
+	if(argc)
+		usage();
+	if(initdraw(nil, nil, "catclock") < 0){
+		fprint(2, "catclock: initdraw failed: %r\n");
+		exits("initdraw");
+	}
 	einit(Emouse);
 	redraw(screen);
 	for(i=0; i<nelem(catback_bits); i++)
